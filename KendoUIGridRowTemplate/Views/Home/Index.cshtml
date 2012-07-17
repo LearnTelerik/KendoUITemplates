@@ -1,0 +1,79 @@
+﻿@model dynamic
+
+
+
+<div id="inline"></div>
+
+<script id="scriptTemplate" type="text/x-kendo-template">
+    Hello, #=firstName# #=lastName#
+</script>
+
+<script>
+    var inlineObject = { firstName: "John", lastName: "Smith" };
+    var inlineTemplate = kendo.template($('#scriptTemplate').html());
+    $('#inline').html(inlineTemplate(inlineObject));
+
+</script>
+
+
+<table id="netflixTable">
+    <thead>
+        <tr>
+            <th>
+                Cover
+            </th>
+            <th>
+                Title
+            </th>
+            <th>
+                Rating
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td colspan="3"></td>
+        </tr>
+    </tbody>
+</table>
+
+<style>
+    .rowColor:nth-child(even)
+    {
+        background: whiteSmoke;
+    }
+    .rowColor:nth-child(odd)
+    {
+        background: #FFF;
+    }
+</style>
+
+<script id="rowTemplate" type="text/x-kendo-tmpl">
+                <tr class="rowColor">
+                    <td>
+                        <img src="${ BoxArt.SmallUrl }" alt="${ Name }" />
+                    </td>
+                    <td>
+                        ${ Name }
+                    </td>
+                    <td>
+                        ${ AverageRating }
+                    </td>
+                </tr>
+            </script>
+            
+            
+   <script>
+       $(document).ready(function () {
+           $("#netflixTable").kendoGrid({
+               dataSource: {
+                   type: "odata",
+                   transport: {
+                       read: "http://odata.netflix.com/Catalog/Titles"
+                   }
+               },
+               rowTemplate: kendo.template($("#rowTemplate").html()),
+               height: 200
+           });
+       });
+            </script>
